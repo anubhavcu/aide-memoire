@@ -1,7 +1,12 @@
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+
 const App = () => {
   return (
     <div>
-      <h1>Aide-memoire</h1>
+      <Header />
+      <main style={{ minHeight: '95vh' }}></main>
+      <Footer />
     </div>
   );
 };
