@@ -5,7 +5,7 @@ const App = () => {
   return (
     <div>
       <Header />
-      <main style={{ minHeight: '95vh' }}></main>
+      <main></main>
       <Footer />
     </div>
   );
