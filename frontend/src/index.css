@@ -1,3 +1,10 @@
 main {
   min-height: 85vh;
 }
+
+.customHover {
+  transition: transform 0.6s;
+}
+.customHover:hover {
+  transform: scale(1.07);
+}

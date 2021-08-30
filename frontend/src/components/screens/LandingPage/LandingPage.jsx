@@ -15,20 +15,16 @@ const LandingPage = () => {
           <Row>
             <Col>
               <div className='intro-buttons'>
-                <Button
-                  className='mx-4 customButton'
-                  variant='primary '
-                  size='lg'
-                >
-                  Login
-                </Button>{' '}
-                <Button
-                  className='mx-2 customButton'
-                  variant='secondary'
-                  size='lg'
-                >
-                  Sign Up
-                </Button>{' '}
+                <div className='customHover'>
+                  <Button className='me-4' variant='primary ' size='lg'>
+                    Login
+                  </Button>{' '}
+                </div>
+                <div className='customHover'>
+                  <Button className='ms-4 ' variant='secondary' size='lg'>
+                    Sign Up
+                  </Button>{' '}
+                </div>
               </div>
             </Col>
           </Row>

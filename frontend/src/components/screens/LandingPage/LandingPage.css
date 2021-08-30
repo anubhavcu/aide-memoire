@@ -32,13 +32,6 @@
   display: flex;
   /* justify-content: space-evenly; */
 }
-.customButton {
-  border-radius: 25px;
-  transition: transform 0.5s ease;
-}
-.customButton:hover {
-  transform: scale(1.1);
-}
 
 /* refer below link for slide in animation */
 /* https://stackoverflow.com/questions/6805482/css3-transition-animation-on-load */
