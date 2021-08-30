@@ -34,11 +34,9 @@
 }
 .customButton {
   border-radius: 25px;
-  transition: transform 0.2s ease;
+  transition: transform 0.5s ease;
 }
 .customButton:hover {
-  width: 200px;
-  height: 55px;
   transform: scale(1.1);
 }
 
