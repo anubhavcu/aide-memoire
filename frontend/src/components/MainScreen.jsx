@@ -4,7 +4,7 @@ import './MainScreen.css';
 
 const MainScreen = ({ title, children }) => {
   useEffect(() => {
-    console.log(children);
+    // console.log(children);
   });
   return (
     <div className='main-background'>

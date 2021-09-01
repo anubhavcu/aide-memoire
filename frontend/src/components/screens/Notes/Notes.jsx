@@ -1,13 +1,21 @@
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
-import { useEffect } from 'react';
-import notes from '../../../notes.js';
+import { useState, useEffect } from 'react';
 
 const Notes = () => {
+  const [notes, setNotes] = useState([]);
   useEffect(() => {
-    console.log(notes);
+    fetchNotes();
   }, []);
+
+  const fetchNotes = async () => {
+    const res = await fetch('api/notes');
+    const data = await res.json();
+    console.log(data);
+    setNotes(data);
+  };
+
   const handleDelete = (id) => {
     if (window.confirm('Are you sure?')) {
     }
@@ -20,7 +28,7 @@ const Notes = () => {
         </Button>
       </Link>
       {notes.map((note) => (
-        <Accordion>
+        <Accordion key={note._id}>
           <Card style={{ margin: 10 }}>
             <Card.Header style={{ display: 'flex' }}>
               <span
