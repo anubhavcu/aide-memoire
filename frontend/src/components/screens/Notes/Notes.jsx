@@ -1,4 +1,4 @@
-import { Badge, Button, Card } from 'react-bootstrap';
+import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
 import { useEffect } from 'react';
@@ -20,46 +20,52 @@ const Notes = () => {
         </Button>
       </Link>
       {notes.map((note) => (
-        <Card style={{ margin: 10 }}>
-          <Card.Header style={{ display: 'flex' }}>
-            <span
-              style={{
-                flex: 1,
-                color: 'black',
-                textDecoration: 'none',
-                alignSelf: 'center',
-                fontSize: 20,
-                cursor: 'pointer',
-              }}
-            >
-              {note.title}
-            </span>
-            <div>
-              <Link to={`/note/${note._id}`}>
-                <Button>Edit</Button>
-              </Link>
-              <Button
-                variant='danger'
-                className='mx-2'
-                onClick={() => handleDelete(note._id)}
+        <Accordion>
+          <Card style={{ margin: 10 }}>
+            <Card.Header style={{ display: 'flex' }}>
+              <span
+                style={{
+                  flex: 1,
+                  color: 'black',
+                  textDecoration: 'none',
+                  alignSelf: 'center',
+                  fontSize: 20,
+                  cursor: 'pointer',
+                }}
               >
-                Delete
-              </Button>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <h4>
-              {/* <Badge variant='success'>Category -{note.category}</Badge> */}
-              <Button variant='success' style={{ borderRadius: 25 }}>
-                Category - {note.category}
-              </Button>
-            </h4>
-            <blockquote className='blockquote mb-0'>
-              <p>{note.content}</p>
-              <footer className='blockquote-footer'>Created on date</footer>
-            </blockquote>
-          </Card.Body>
-        </Card>
+                <Accordion.Toggle as={Card.Text} eventKey='0' variant='link'>
+                  {note.title}
+                </Accordion.Toggle>
+              </span>
+              <div>
+                <Link to={`/note/${note._id}`}>
+                  <Button>Edit</Button>
+                </Link>
+                <Button
+                  variant='danger'
+                  className='mx-2'
+                  onClick={() => handleDelete(note._id)}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Card.Header>
+            <Accordion.Collapse eventKey='0'>
+              <Card.Body>
+                <h4>
+                  {/* <Badge variant='success'>Category -{note.category}</Badge> */}
+                  <Button variant='success' style={{ borderRadius: 25 }}>
+                    Category - {note.category}
+                  </Button>
+                </h4>
+                <blockquote className='blockquote mb-0'>
+                  <p>{note.content}</p>
+                  <footer className='blockquote-footer'>Created on date</footer>
+                </blockquote>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
       ))}
     </MainScreen>
   );
