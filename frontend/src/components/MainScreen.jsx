@@ -1,7 +1,11 @@
+import { useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import './MainScreen.css';
 
 const MainScreen = ({ title, children }) => {
+  useEffect(() => {
+    console.log(children);
+  });
   return (
     <div className='main-background'>
       <Container>
