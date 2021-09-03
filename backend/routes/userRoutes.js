@@ -1,3 +1,4 @@
+// this module serves routes for '/api/users/'
 const express = require('express');
 const router = express.Router();
 const { registerUser } = require('../controllers/userControllers');
