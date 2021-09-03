@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 const app = express();
 
@@ -18,7 +19,11 @@ app.get('/', (req, res) => {
 // notes route
 app.use('/api/notes', require('./routes/notesRoutes'));
 
-// members routes
+// users routes
 app.use('/api/users', require('./routes/userRoutes'));
+
+// error handling middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, console.log(`server started on port ${PORT}`));
