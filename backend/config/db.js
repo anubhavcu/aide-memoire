@@ -15,3 +15,6 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+// useCreateIndex not supported anymore
+// https://stackoverflow.com/a/68962378
