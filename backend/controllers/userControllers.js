@@ -1,6 +1,7 @@
 // this module will have CRUD operations on /api/user route
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const generateToken = require('../utils/generateToken');
 
 // register user
 const registerUser = asyncHandler(async (req, res) => {
@@ -28,6 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: newUser.email,
       isAdmin: newUser.isAdmin,
       pic: newUser.pic,
+      token: generateToken(newUser._id),
     });
   } else {
     res.status(400);
@@ -54,6 +56,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       pic: user.pic,
+      token: generateToken(user._id),
     });
   } else {
     // if user is not present, throw error
