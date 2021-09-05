@@ -62,7 +62,11 @@ const Notes = () => {
               <Card.Body>
                 <h4>
                   {/* <Badge variant='success'>Category -{note.category}</Badge> */}
-                  <Button variant='success' style={{ borderRadius: 25 }}>
+                  <Button
+                    size='sm'
+                    variant='success'
+                    style={{ borderRadius: 25 }}
+                  >
                     Category - {note.category}
                   </Button>
                 </h4>

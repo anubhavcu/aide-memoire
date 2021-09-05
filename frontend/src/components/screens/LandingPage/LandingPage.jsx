@@ -1,4 +1,5 @@
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './LandingPage.css';
 
 const LandingPage = () => {
@@ -16,14 +17,18 @@ const LandingPage = () => {
             <Col>
               <div className='intro-buttons'>
                 <div className='customHover'>
-                  <Button className='me-4' variant='primary ' size='lg'>
-                    Login
-                  </Button>{' '}
+                  <Link to='/login'>
+                    <Button className='me-4' variant='primary ' size='lg'>
+                      Login
+                    </Button>{' '}
+                  </Link>
                 </div>
                 <div className='customHover'>
-                  <Button className='ms-4 ' variant='secondary' size='lg'>
-                    Sign Up
-                  </Button>{' '}
+                  <Link to='/register'>
+                    <Button className='ms-4 ' variant='secondary' size='lg'>
+                      Sign Up
+                    </Button>{' '}
+                  </Link>
                 </div>
               </div>
             </Col>
