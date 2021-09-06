@@ -28,6 +28,7 @@ const LoginScreen = () => {
         },
         config
       );
+      // console.log(res);
       console.log(data);
 
       localStorage.setItem('userInfo', JSON.stringify(data));
@@ -44,11 +45,7 @@ const LoginScreen = () => {
         <div
           style={{ display: 'flex', flexDirection: 'column', margin: '20px' }}
         >
-          {error && (
-            <ErrorMessage variant='danger' text={error}>
-              {/* {error} */}
-            </ErrorMessage>
-          )}
+          {error && <ErrorMessage variant='danger' text={error}></ErrorMessage>}
           <Form onSubmit={handleSubmit}>
             <Form.Group className='mb-3' controlId='formBasicEmail'>
               <Form.Label>Email address</Form.Label>

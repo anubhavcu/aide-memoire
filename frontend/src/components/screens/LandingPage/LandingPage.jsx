@@ -1,8 +1,21 @@
+import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
 
 const LandingPage = () => {
+  // https://reactrouter.com/web/api/Hooks/usehistory
+
+  // const history = useHistory();
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem('userInfo');
+  //   if (userInfo) {
+  //     console.log(history);
+  //     history.push('/notes');
+  //   }
+  // }, [history]);
+
   return (
     <div className='landingBackground'>
       <Container>
