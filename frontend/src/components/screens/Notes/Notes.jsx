@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Search from '../../Search/Search';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -23,6 +24,7 @@ const Notes = () => {
   };
   return (
     <MainScreen title='Welcome back Anubhav..' children='hello world'>
+      <Search />
       <Link to='/createnote'>
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size='lg'>
           Create new Note
@@ -63,13 +65,11 @@ const Notes = () => {
               <Card.Body>
                 <h4>
                   {/* <Badge variant='success'>Category -{note.category}</Badge> */}
-                  <Button
-                    size='sm'
-                    variant='success'
-                    style={{ borderRadius: 25 }}
-                  >
-                    Category - {note.category}
-                  </Button>
+                  <Badge className='badge bg-success'>
+                    {/* <span className='badge bg-info'> */}
+                    Category -{note.category}
+                    {/* </span> */}
+                  </Badge>
                 </h4>
                 <blockquote className='blockquote mb-0'>
                   <p>{note.content}</p>
