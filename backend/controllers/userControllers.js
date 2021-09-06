@@ -58,9 +58,11 @@ const authUser = asyncHandler(async (req, res) => {
       pic: user.pic,
       token: generateToken(user._id),
     });
+    console.log('user logged in ...');
   } else {
     // if user is not present, throw error
-    res.status(400);
+    res.status(401);
+    // console.log('error thrown , invalid credentials ');
     throw new Error('invalid credentials...');
   }
 });

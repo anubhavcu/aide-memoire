@@ -1,7 +1,9 @@
 import MainScreen from '../../MainScreen';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import ErrorMessage from '../../ErrorMessage';
+import axios from 'axios';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -10,24 +12,31 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      setLoading(true);
-      const res = await fetch('/api/users/login', {
-        method: 'POST',
+      const config = {
         headers: {
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({ email: email, password: password }),
-      });
-      const data = await res.json();
+      };
+      setLoading(true);
+      const { data } = await axios.post(
+        '/api/users/login',
+        {
+          email: email,
+          password: password,
+        },
+        config
+      );
       console.log(data);
-      localStorage.setItem('userInfo', JSON.stringify(data));
 
+      localStorage.setItem('userInfo', JSON.stringify(data));
       setLoading(false);
-    } catch (err) {
-      setError(err.response.data.error);
+    } catch (error) {
+      console.log(error.response.data.message);
+      setError(error.response.data.message);
+      setLoading(false);
     }
-    // console.log(email, password);
   };
   return (
     <div>
@@ -35,6 +44,11 @@ const LoginScreen = () => {
         <div
           style={{ display: 'flex', flexDirection: 'column', margin: '20px' }}
         >
+          {error && (
+            <ErrorMessage variant='danger' text={error}>
+              {/* {error} */}
+            </ErrorMessage>
+          )}
           <Form onSubmit={handleSubmit}>
             <Form.Group className='mb-3' controlId='formBasicEmail'>
               <Form.Label>Email address</Form.Label>
@@ -59,9 +73,24 @@ const LoginScreen = () => {
               />
             </Form.Group>
 
-            <Button variant='primary' type='submit'>
-              Submit
-            </Button>
+            {loading === false && (
+              <Button variant='primary' type='submit'>
+                Submit
+              </Button>
+            )}
+            {loading && (
+              <Button variant='primary' disabled>
+                <Spinner
+                  as='span'
+                  animation='border'
+                  size='sm'
+                  role='status'
+                  // variant='success'
+                  aria-hidden='true'
+                />
+                Logging in...
+              </Button>
+            )}
           </Form>
           <Row className='py-3'>
             <Col>

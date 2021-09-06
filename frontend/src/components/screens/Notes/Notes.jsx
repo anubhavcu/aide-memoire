@@ -2,6 +2,7 @@ import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -10,8 +11,8 @@ const Notes = () => {
   }, []);
 
   const fetchNotes = async () => {
-    const res = await fetch('api/notes');
-    const data = await res.json();
+    const { data } = await axios('api/notes');
+    // const data = await res.json();
     console.log(data);
     setNotes(data);
   };
