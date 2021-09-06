@@ -48,6 +48,34 @@ const RegisterScreen = () => {
     }
   };
 
+  // https://api.cloudinary.com/v1_1/anubhav/image/upload
+  const postDetails = (pics) => {
+    if (!pics) {
+      return setPicMessage('Please Select an Image');
+    }
+    setPicMessage(null);
+    if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+      const data = new FormData();
+      data.append('file', pics);
+      data.append('upload_preset', 'aide-memoire');
+      data.append('cloud_name', 'anubhav');
+      fetch('https://api.cloudinary.com/v1_1/anubhav/image/upload', {
+        method: 'post',
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setPic(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return setPicMessage('Please select an Image');
+    }
+  };
+
   return (
     <div>
       <MainScreen title='REGISTER'>
@@ -98,15 +126,18 @@ const RegisterScreen = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Form.Group>
-
+            {picMessage && (
+              <ErrorMessage variant='danger' text={picMessage}>
+                {' '}
+              </ErrorMessage>
+            )}
             <Form.Group controlId='formFile' className='mb-3'>
               <Form.Label>Profile Picture</Form.Label>
               <Form.File
                 id='custom-file'
                 type='image/png'
                 // label='Upload Profile Picture'
-                // value={pic}
-                // onChange={(e) => setPic(e.target.value)}
+                onChange={(e) => postDetails(e.target.files[0])}
                 custom
               />
             </Form.Group>

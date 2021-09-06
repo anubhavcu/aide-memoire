@@ -23,7 +23,12 @@ const Header = () => {
                 </Link>
               </Nav.Link>
               <Nav.Link className='customHover'>
-                <Link to='/'>
+                <Link
+                  to='/'
+                  onClick={() => {
+                    localStorage.removeItem('userInfo');
+                  }}
+                >
                   <i className='fas fa-sign-out-alt'></i> Log out
                 </Link>
               </Nav.Link>
