@@ -18,11 +18,11 @@ const userInfoFromLocalStorage = localStorage.getItem('userInfo')
 
 const initialState = {
   userLogin: { userInfo: userInfoFromLocalStorage, loading: false, error: '' },
-  userRegister: {
-    userInfo: userInfoFromLocalStorage,
-    loading: false,
-    error: '',
-  },
+  //     userRegister: {
+  //       userInfo: userInfoFromLocalStorage,
+  //       loading: false,
+  //       error: '',
+  //     },
 };
 
 const store = createStore(
