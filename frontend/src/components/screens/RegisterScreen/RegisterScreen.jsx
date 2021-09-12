@@ -1,11 +1,12 @@
 import MainScreen from '../../MainScreen';
 import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ErrorMessage from '../../ErrorMessage';
-import axios from 'axios';
+import { register } from '../../../redux/actions/userActions';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ history }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -15,39 +16,28 @@ const RegisterScreen = () => {
   const [pic, setPic] = useState(
     'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
   );
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push('/notes');
+    }
+  }, [history, userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match!');
+      setMessage('passwords do not match!');
     } else {
-      setMessage(null);
-      try {
-        const config = {
-          headers: {
-            'Content-type': 'application/json',
-          },
-        };
-        setLoading(true);
-        const { data } = await axios.post(
-          '/api/users/register',
-          { name, email, password, pic },
-          config
-        );
-
-        setLoading(false);
-        console.log(data);
-        localStorage.setItem('userInfo', JSON.stringify(data));
-      } catch (error) {
-        setError(error.response.data.message);
-        setLoading(false);
-      }
+      dispatch(register(name, email, password, pic));
     }
   };
 
+  // for generating pic link by uploading to cloudinary -- see docs for reference
   // https://api.cloudinary.com/v1_1/anubhav/image/upload
   const postDetails = (pics) => {
     if (!pics) {
