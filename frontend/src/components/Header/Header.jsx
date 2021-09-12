@@ -1,7 +1,18 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-const Header = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/actions/userActions';
+const Header = ({ history }) => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    // history.push('/');
+  };
   return (
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
@@ -23,12 +34,7 @@ const Header = () => {
                 </Link>
               </Nav.Link>
               <Nav.Link className='customHover'>
-                <Link
-                  to='/'
-                  onClick={() => {
-                    localStorage.removeItem('userInfo');
-                  }}
-                >
+                <Link to='/' onClick={logoutHandler}>
                   <i className='fas fa-sign-out-alt'></i> Log out
                 </Link>
               </Nav.Link>
