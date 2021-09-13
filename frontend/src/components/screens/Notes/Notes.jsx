@@ -1,21 +1,28 @@
-import { Accordion, Badge, Button, Card } from 'react-bootstrap';
+import { Accordion, Badge, Button, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
 import Search from '../../Search/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { listNotes } from '../../../redux/actions/notesActions';
+import ErrorMessage from '../../ErrorMessage';
 
-const Notes = () => {
+const Notes = ({ history }) => {
   const dispatch = useDispatch();
 
   const notesList = useSelector((state) => state.notesList);
 
   const { loading, notes, error } = notesList;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
-    dispatch(listNotes());
+    if (!userInfo) {
+      history.push('/');
+    } else {
+      dispatch(listNotes());
+    }
   }, [dispatch]);
 
   const handleDelete = (id) => {
@@ -23,13 +30,24 @@ const Notes = () => {
     }
   };
   return (
-    <MainScreen title='Welcome back Anubhav..' children='hello world'>
+    <MainScreen
+      title={`Welcome back ${userInfo.name}..`}
+      children='hello world'
+    >
       <Search />
       <Link to='/createnote'>
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size='lg'>
-          Create new Note
+          <i className='fas fa-plus'></i> Add Note
         </Button>
       </Link>
+      {error && <ErrorMessage variant='danger' text={error}></ErrorMessage>}
+      {loading && (
+        <div className=' d-flex justify-content-center align-items-center'>
+          <Spinner animation='border' role='status'>
+            <span className='visually-hidden'>Loading...</span>
+          </Spinner>
+        </div>
+      )}
       {notes.map((note) => (
         <Accordion key={note._id}>
           <Card style={{ margin: 10 }}>
@@ -73,7 +91,10 @@ const Notes = () => {
                 </h4>
                 <blockquote className='blockquote mb-0'>
                   <p>{note.content}</p>
-                  <footer className='blockquote-footer'>Created on date</footer>
+                  <footer className='blockquote-footer'>
+                    {/* Date created: {note.createdAt.substring(0, 10)} || */}
+                    Last modified: {note.updatedAt.substring(0, 10)}
+                  </footer>
                 </blockquote>
               </Card.Body>
             </Accordion.Collapse>
