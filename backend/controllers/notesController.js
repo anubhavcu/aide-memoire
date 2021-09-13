@@ -1,11 +1,13 @@
 const expressAsyncHandler = require('express-async-handler');
 const Note = require('../models/noteModel');
 
+// get all notes
 const getNotes = expressAsyncHandler(async (req, res) => {
   const notes = await Note.find({ user: req.user._id });
   res.json(notes);
 });
 
+// create note
 const createNotes = expressAsyncHandler(async (req, res) => {
   const { title, content, category } = req.body;
 
@@ -21,6 +23,7 @@ const createNotes = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// fetch single note
 const getNoteById = expressAsyncHandler(async (req, res) => {
   const note = await Note.findById(req.params.id);
   if (note) {
@@ -30,4 +33,29 @@ const getNoteById = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getNotes, createNotes, getNoteById };
+const updateNote = expressAsyncHandler(async (req, res) => {
+  const { title, content, cotegory } = req.body;
+
+  const note = await Note.findById(req.params.id);
+
+  // checking if the note belongs to the user logged in
+  if (note.user.toString() !== req.user._id.toString()) {
+    res.status(401);
+    throw new Error('You cannot perform this action...');
+  }
+
+  // if the id is correct  then update
+  if (note) {
+    note.title = title;
+    note.content = content;
+    note.category = category;
+
+    const updatedNote = await Note.save();
+    res.json(updatedNote);
+  } else {
+    res.status(404);
+    throw new Error('Note not found ... ');
+  }
+});
+
+module.exports = { getNotes, createNotes, getNoteById, updateNote };

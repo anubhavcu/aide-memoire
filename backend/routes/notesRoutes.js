@@ -5,6 +5,7 @@ const {
   getNotes,
   createNotes,
   getNoteById,
+  updateNote,
 } = require('../controllers/notesController');
 const router = express.Router();
 const notes = require('../data/notes');
@@ -21,7 +22,11 @@ const { protect } = require('../middlewares/authMiddleware');
 
 router.get('/', protect, getNotes);
 router.post('/create', protect, createNotes);
-router.get('/:id', getNoteById);
+// router.get('/:id', getNoteById).put(protect, updateNote);
+router.route('/:id').get(getNoteById).put(protect, updateNote);
 // .put().delete()
 
 module.exports = router;
+
+// refer below link for more info on router.route
+// http://expressjs.com/en/5x/api.html#router.route
