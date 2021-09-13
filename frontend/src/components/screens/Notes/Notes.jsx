@@ -4,19 +4,19 @@ import MainScreen from '../../MainScreen';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Search from '../../Search/Search';
+import { useDispatch, useSelector } from 'react-redux';
+import { listNotes } from '../../../redux/actions/notesActions';
 
 const Notes = () => {
-  const [notes, setNotes] = useState([]);
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+  const dispatch = useDispatch();
 
-  const fetchNotes = async () => {
-    const { data } = await axios('api/notes');
-    // const data = await res.json();
-    console.log(data);
-    setNotes(data);
-  };
+  const notesList = useSelector((state) => state.notesList);
+
+  const { loading, notes, error } = notesList;
+
+  useEffect(() => {
+    dispatch(listNotes());
+  }, [dispatch]);
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure?')) {

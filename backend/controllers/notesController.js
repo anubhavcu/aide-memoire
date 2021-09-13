@@ -34,7 +34,7 @@ const getNoteById = expressAsyncHandler(async (req, res) => {
 });
 
 const updateNote = expressAsyncHandler(async (req, res) => {
-  const { title, content, cotegory } = req.body;
+  const { title, content, category } = req.body;
 
   const note = await Note.findById(req.params.id);
 
@@ -50,7 +50,7 @@ const updateNote = expressAsyncHandler(async (req, res) => {
     note.content = content;
     note.category = category;
 
-    const updatedNote = await Note.save();
+    const updatedNote = await note.save();
     res.json(updatedNote);
   } else {
     res.status(404);
@@ -70,7 +70,7 @@ const deleteNote = expressAsyncHandler(async (req, res) => {
 
   // if the id is correct i.e note exists  then delete
   if (note) {
-    await Note.remove();
+    await note.remove();
     res.json({ message: 'note removed ...' });
   } else {
     res.status(404);

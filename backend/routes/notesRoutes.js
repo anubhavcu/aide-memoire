@@ -21,8 +21,8 @@ const { protect } = require('../middlewares/authMiddleware');
 //   res.json(note);
 // });
 
-router.get('/', protect, getNotes);
-router.post('/create', protect, createNotes);
+router.route('/').get(protect, getNotes);
+router.route('/create').post(protect, createNotes);
 router
   .route('/:id')
   .get(getNoteById)
