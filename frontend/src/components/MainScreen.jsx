@@ -1,11 +1,16 @@
-import { useEffect } from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import './MainScreen.css';
+import { useDispatch } from 'react-redux';
 
 const MainScreen = ({ title, children }) => {
-  useEffect(() => {
-    // console.log(children);
-  });
+  const dispatch = useDispatch();
+
+  const handleChange = () => {
+    const value = document.getElementById('flexSwitchCheckChecked').checked;
+    console.log(value);
+    dispatch({ type: 'THEME_SWITCHED', payload: value });
+  };
+
   return (
     <div className='main-background'>
       <Container>
@@ -18,6 +23,8 @@ const MainScreen = ({ title, children }) => {
               className='form-check-input'
               type='checkbox'
               id='flexSwitchCheckChecked'
+              // onChangeCapture={(e) => handleChange(e.target.value)}
+              onChange={handleChange}
             />
             <label className='form-check-label' for='flexSwitchCheckChecked'>
               Dark Theme

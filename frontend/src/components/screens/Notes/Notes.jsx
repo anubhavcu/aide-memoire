@@ -76,7 +76,7 @@ const Notes = ({ history }) => {
                     setModalShow(true);
                   }}
                 >
-                  Preview
+                  <i className='fas fa-eye'></i> Preview
                 </Button>
 
                 <PreviewNote
@@ -86,14 +86,18 @@ const Notes = ({ history }) => {
                 />
 
                 <Link to={`/note/${note._id}`}>
-                  <Button>Edit</Button>
+                  <Button>
+                    <i className='fas fa-pen'></i>
+                    {'  '} Edit
+                  </Button>
                 </Link>
                 <Button
                   variant='danger'
                   className='mx-2'
                   onClick={() => handleDelete(note._id)}
                 >
-                  Delete
+                  <i className='fas fa-trash-alt'></i>
+                  {'   '} Delete
                 </Button>
               </div>
             </Card.Header>
