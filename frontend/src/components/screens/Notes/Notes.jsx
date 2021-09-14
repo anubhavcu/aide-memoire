@@ -4,7 +4,10 @@ import MainScreen from '../../MainScreen';
 import { useState, useEffect } from 'react';
 import Search from '../../Search/Search';
 import { useDispatch, useSelector } from 'react-redux';
-import { listNotes } from '../../../redux/actions/notesActions';
+import {
+  listNotes,
+  notesDeleteAction,
+} from '../../../redux/actions/notesActions';
 import ErrorMessage from '../../ErrorMessage';
 import PreviewNote from './PreviewNote';
 
@@ -29,18 +32,33 @@ const Notes = ({ history }) => {
   const noteUpdate = useSelector((state) => state.noteUpdate);
   const { success: successUpdate } = noteUpdate;
 
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = noteDelete;
   useEffect(() => {
     if (!userInfo || userInfo === null) {
       history.push('/');
     } else {
       dispatch(listNotes());
     }
-  }, [dispatch, history, userInfo, successCreate, successUpdate]);
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    successCreate,
+    successUpdate,
+    successDelete,
+  ]);
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure?')) {
+      dispatch(notesDeleteAction(id));
     }
   };
+
   return (
     <MainScreen title={`Welcome back ${userInfo && userInfo.name}..`}>
       <Search />
@@ -49,6 +67,28 @@ const Notes = ({ history }) => {
           <i className='fas fa-plus'></i> Add Note
         </Button>
       </Link>
+      {/* {successUpdate && (
+        <ErrorMessage
+          variant='success'
+          text={'Note Updated Successfully!'}
+        ></ErrorMessage>
+      )}
+      {successCreate && (
+        <ErrorMessage
+          variant='success'
+          text='Note Created Successfully'
+        ></ErrorMessage>
+      )}
+      {successDelete && (
+        <ErrorMessage
+          variant='success'
+          text='Note Deleted Successfully'
+        ></ErrorMessage>
+      )}
+      */}
+      {errorDelete && (
+        <ErrorMessage variant='danger' text={error}></ErrorMessage>
+      )}
       {error && <ErrorMessage variant='danger' text={error}></ErrorMessage>}
       {loading && (
         <div className=' d-flex justify-content-center align-items-center'>

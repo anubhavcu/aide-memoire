@@ -9,7 +9,10 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateNoteAction } from '../../../redux/actions/notesActions';
+import {
+  notesDeleteAction,
+  updateNoteAction,
+} from '../../../redux/actions/notesActions';
 import ErrorMessage from '../../ErrorMessage';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
@@ -25,8 +28,18 @@ const SingleNote = ({ history, match }) => {
 
   const noteUpdate = useSelector((state) => state.noteUpdate);
   const { loading, error } = noteUpdate;
+
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const { loading: loadingDelete, error: errorDelete } = noteDelete;
+
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure?')) {
+      dispatch(notesDeleteAction(id));
+    }
+    history.push('/notes');
+  };
+
   useEffect(() => {
-    console.log('edit note page rendered');
     fetching();
   }, [match.params.id, date]);
 
@@ -76,6 +89,12 @@ const SingleNote = ({ history, match }) => {
               {error && (
                 <ErrorMessage variant='danger' text={error}></ErrorMessage>
               )}
+              {errorDelete && (
+                <ErrorMessage
+                  variant='danger'
+                  text={errorDelete}
+                ></ErrorMessage>
+              )}
               <Form.Group controlId='title' className='mb-3'>
                 <Form.Label>Title</Form.Label>
                 <Form.Control
@@ -106,31 +125,25 @@ const SingleNote = ({ history, match }) => {
                   onChange={(e) => setCategory(e.target.value)}
                 />
               </Form.Group>
-              {loading === false && (
-                <Button variant='primary' type='submit' size='lg'>
-                  Update
-                </Button>
-              )}
-              {loading && (
-                <Button variant='primary' size='lg' disabled>
-                  <Spinner
-                    as='span'
-                    animation='border'
-                    size='sm'
-                    role='status'
-                    aria-hidden='true'
-                  />
-                  Updating note...
-                </Button>
-              )}
-
+              <Button variant='primary' type='submit' size='lg'>
+                Update Note
+              </Button>
               <Button
                 className='mx-2'
                 onClick={resetHandler}
-                variant='danger'
+                variant='warning'
                 size='lg'
               >
                 Reset Feilds
+              </Button>
+
+              <Button
+                className='mx-2'
+                onClick={() => handleDelete(match.params.id)}
+                variant='danger'
+                size='lg'
+              >
+                Delete Note
               </Button>
             </Form>
           </Card.Body>

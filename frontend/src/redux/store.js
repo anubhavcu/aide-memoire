@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {
   createNoteReducer,
+  noteDeleteReducer,
   notesReducer,
   noteUpdateReducer,
 } from './reducers/notesReducer';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   notesList: notesReducer,
   createNote: createNoteReducer,
   noteUpdate: noteUpdateReducer,
+  noteDelete: noteDeleteReducer,
   theme: themeReducer,
 });
 
