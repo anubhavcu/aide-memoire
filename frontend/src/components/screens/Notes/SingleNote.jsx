@@ -9,22 +9,35 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNoteAction } from '../../../redux/actions/notesActions';
+import { updateNoteAction } from '../../../redux/actions/notesActions';
 import ErrorMessage from '../../ErrorMessage';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const CreateNote = ({ history }) => {
+const SingleNote = ({ history, match }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
+  const [date, setDate] = useState('');
 
   const dispatch = useDispatch();
 
-  const createNote = useSelector((state) => state.createNote);
-  const { loading, error, note } = createNote;
+  const noteUpdate = useSelector((state) => state.noteUpdate);
+  const { loading, error } = noteUpdate;
+  useEffect(() => {
+    console.log('edit note page rendered');
+    fetching();
+  }, [match.params.id, date]);
 
-  console.log(note);
+  const fetching = async () => {
+    const { data } = await axios.get(`/api/notes/${match.params.id}`);
+
+    setTitle(data.title);
+    setContent(data.content);
+    setCategory(data.category);
+    setDate(data.updatedAt);
+  };
 
   const resetHandler = () => {
     setTitle('');
@@ -32,20 +45,19 @@ const CreateNote = ({ history }) => {
     setContent('');
   };
 
-  const submitHandler = (e) => {
+  const updateHandler = (e) => {
     e.preventDefault();
-    dispatch(createNoteAction(title, content, category));
+    console.log(title, content, category);
+    dispatch(updateNoteAction(match.params.id, title, content, category));
     if (!title || !content || !category) return;
 
     resetHandler();
     history.push('/notes');
   };
 
-  useEffect(() => {}, []);
-
   return (
     <Container>
-      <h3>Create a new note</h3>
+      <h3>Edit note </h3>
       <div className='ms-auto me-3'>
         <Link to='/notes'>
           <Button className='  m-2' variant='primary'>
@@ -57,10 +69,10 @@ const CreateNote = ({ history }) => {
       <CardGroup style={{ minHeight: '80vh' }}>
         {/* <MainScreen title='Create a Note'></MainScreen> */}
         <Card>
-          <Card.Header>Create a new Note</Card.Header>
+          <Card.Header>Start editing your note.. </Card.Header>
 
           <Card.Body>
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={updateHandler}>
               {error && (
                 <ErrorMessage variant='danger' text={error}></ErrorMessage>
               )}
@@ -96,7 +108,7 @@ const CreateNote = ({ history }) => {
               </Form.Group>
               {loading === false && (
                 <Button variant='primary' type='submit' size='lg'>
-                  Submit
+                  Update
                 </Button>
               )}
               {loading && (
@@ -108,7 +120,7 @@ const CreateNote = ({ history }) => {
                     role='status'
                     aria-hidden='true'
                   />
-                  Creating note...
+                  Updating note...
                 </Button>
               )}
 
@@ -124,7 +136,7 @@ const CreateNote = ({ history }) => {
           </Card.Body>
 
           <Card.Footer className='text-muted'>
-            Creating on - {new Date().toLocaleDateString()}
+            Updating on - {date.substring(0, 10)}
           </Card.Footer>
         </Card>
         <Card>
@@ -150,4 +162,4 @@ const CreateNote = ({ history }) => {
   );
 };
 
-export default CreateNote;
+export default SingleNote;

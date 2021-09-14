@@ -8,6 +8,7 @@ import Dashboard from './components/screens/Dashboard/Dashboard';
 import LoginScreen from './components/screens/LoginScreen/LoginScreen';
 import RegisterScreen from './components/screens/RegisterScreen/RegisterScreen';
 import CreateNote from './components/screens/CreateNote/CreateNote';
+import SingleNote from './components/screens/Notes/SingleNote';
 
 const App = () => {
   return (
@@ -17,7 +18,8 @@ const App = () => {
         <main>
           {/* <Search /> */}
           <Route path='/' component={LandingPage} exact />
-          <Route path='/notes' component={Notes} />
+          <Route path='/notes' component={Notes} exact />
+          <Route path='/notes/:id' component={SingleNote} />
           <Route path='/createnote' component={CreateNote} />
           <Route path='/login' component={LoginScreen} />
           <Route path='/register' component={RegisterScreen} />

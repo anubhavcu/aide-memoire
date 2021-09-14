@@ -1,6 +1,10 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import { createNoteReducer, notesReducer } from './reducers/notesReducer';
+import {
+  createNoteReducer,
+  notesReducer,
+  noteUpdateReducer,
+} from './reducers/notesReducer';
 import { userLoginReducer, userRegisterReducer } from './reducers/userReducers';
 import { themeReducer } from './reducers/themeReducer';
 
@@ -11,6 +15,7 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   notesList: notesReducer,
   createNote: createNoteReducer,
+  noteUpdate: noteUpdateReducer,
   theme: themeReducer,
 });
 
