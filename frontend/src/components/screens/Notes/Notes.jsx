@@ -1,15 +1,19 @@
 import { Accordion, Badge, Button, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Search from '../../Search/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { listNotes } from '../../../redux/actions/notesActions';
 import ErrorMessage from '../../ErrorMessage';
+import PreviewNote from './PreviewNote';
 
 const Notes = ({ history }) => {
-  const dispatch = useDispatch();
+  // state for modal
+  const [modalShow, setModalShow] = useState(false);
+  const [activeModalContent, setActiveModalContent] = useState(null);
 
+  const dispatch = useDispatch();
   const notesList = useSelector((state) => state.notesList);
 
   const { loading, notes, error } = notesList;
@@ -18,7 +22,7 @@ const Notes = ({ history }) => {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo || userInfo === null) {
       history.push('/');
     } else {
       dispatch(listNotes());
@@ -30,10 +34,7 @@ const Notes = ({ history }) => {
     }
   };
   return (
-    <MainScreen
-      title={`Welcome back ${userInfo.name}..`}
-      children='hello world'
-    >
+    <MainScreen title={`Welcome back ${userInfo && userInfo.name}..`}>
       <Search />
       <Link to='/createnote'>
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size='lg'>
@@ -67,6 +68,23 @@ const Notes = ({ history }) => {
                 </Accordion.Toggle>
               </span>
               <div>
+                <Button
+                  variant='success'
+                  className='mx-2'
+                  onClick={() => {
+                    setActiveModalContent(note);
+                    setModalShow(true);
+                  }}
+                >
+                  Preview
+                </Button>
+
+                <PreviewNote
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                  content={activeModalContent}
+                />
+
                 <Link to={`/note/${note._id}`}>
                   <Button>Edit</Button>
                 </Link>

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import MainScreen from '../../MainScreen';
-import { Button, Card, Container, Form, Spinner } from 'react-bootstrap';
+import {
+  Button,
+  Card,
+  CardGroup,
+  Container,
+  Form,
+  Spinner,
+} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNoteAction } from '../../../redux/actions/notesActions';
 import ErrorMessage from '../../ErrorMessage';
@@ -38,15 +45,20 @@ function CreateNote({ history }) {
 
   return (
     <Container>
-      <Link to='/notes'>
-        <Button className='mt-2  mx-4' variant='primary'>
-          Go back
-        </Button>
-      </Link>
+      <h3>Create a new note</h3>
+      <div className='ms-auto me-3'>
+        <Link to='/notes'>
+          <Button className='  m-2' variant='primary'>
+            Go back
+          </Button>
+        </Link>
+      </div>
 
-      <MainScreen title='Create a Note'>
+      <CardGroup style={{ minHeight: '80vh' }}>
+        {/* <MainScreen title='Create a Note'></MainScreen> */}
         <Card>
           <Card.Header>Create a new Note</Card.Header>
+
           <Card.Body>
             <Form onSubmit={submitHandler}>
               {error && (
@@ -67,8 +79,8 @@ function CreateNote({ history }) {
                 <Form.Control
                   as='textarea'
                   value={content}
-                  placeholder='Enter the content'
-                  rows={4}
+                  placeholder='Enter the content. Tip: you can write markdown too!'
+                  rows={20}
                   onChange={(e) => setContent(e.target.value)}
                 />
               </Form.Group>
@@ -115,15 +127,25 @@ function CreateNote({ history }) {
             Creating on - {new Date().toLocaleDateString()}
           </Card.Footer>
         </Card>
-        {content && (
+        <Card>
+          {/* {content && (
+            <Card>
+              <Card.Header>Note Preview</Card.Header>
+              <Card.Body>
+                <ReactMarkdown>{content}</ReactMarkdown>
+              </Card.Body>
+            </Card>
+          )} */}
           <Card>
             <Card.Header>Note Preview</Card.Header>
-            <Card.Body>
-              <ReactMarkdown>{content}</ReactMarkdown>
-            </Card.Body>
+            {content && (
+              <Card.Body>
+                <ReactMarkdown>{content}</ReactMarkdown>
+              </Card.Body>
+            )}
           </Card>
-        )}
-      </MainScreen>
+        </Card>
+      </CardGroup>
     </Container>
   );
 }
