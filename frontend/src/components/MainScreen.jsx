@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import './MainScreen.css';
 
 const MainScreen = ({ title, children }) => {
@@ -9,17 +9,33 @@ const MainScreen = ({ title, children }) => {
   return (
     <div className='main-background'>
       <Container>
-        <Row>
-          <div className='page'>
-            {title && (
-              <>
-                <h1 className='heading'>{title}</h1>
-                <hr />
-              </>
-            )}
-            {children}
+        <Col>
+          <div
+            className='form-check form-switch my-2 '
+            style={{ position: 'absolute', right: '20vw' }}
+          >
+            <input
+              className='form-check-input'
+              type='checkbox'
+              id='flexSwitchCheckChecked'
+            />
+            <label className='form-check-label' for='flexSwitchCheckChecked'>
+              Dark Theme
+            </label>
           </div>
-        </Row>
+          <Row>
+            <div className='page'>
+              {title && (
+                <>
+                  <h2 className='heading'>{title}</h2>
+                  <hr />
+                </>
+              )}
+
+              {children}
+            </div>
+          </Row>
+        </Col>
       </Container>
     </div>
   );

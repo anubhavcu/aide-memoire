@@ -11,7 +11,7 @@ import PreviewNote from './PreviewNote';
 const Notes = ({ history }) => {
   // state for modal
   const [modalShow, setModalShow] = useState(false);
-  const [activeModalContent, setActiveModalContent] = useState(null);
+  const [activeModalContent, setActiveModalContent] = useState('');
 
   const dispatch = useDispatch();
   const notesList = useSelector((state) => state.notesList);
