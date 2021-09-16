@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import LandingPage from './components/screens/LandingPage/LandingPage';
@@ -11,14 +12,20 @@ import CreateNote from './components/screens/CreateNote/CreateNote';
 import SingleNote from './components/screens/Notes/SingleNote';
 
 const App = () => {
+  const [search, setSearch] = useState('');
+  // console.log(search);
   return (
     <Router>
       <div>
-        <Header />
+        <Header setSearch={setSearch} />
         <main>
           {/* <Search /> */}
           <Route path='/' component={LandingPage} exact />
-          <Route path='/notes' component={Notes} exact />
+          <Route
+            path='/notes'
+            component={() => <Notes search={search} />}
+            exact
+          />
           <Route path='/notes/:id' component={SingleNote} />
           <Route path='/createnote' component={CreateNote} />
           <Route path='/login' component={LoginScreen} />

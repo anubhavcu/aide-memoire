@@ -2,7 +2,6 @@ import { Accordion, Badge, Button, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
 import { useState, useEffect } from 'react';
-import Search from '../../Search/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   listNotes,
@@ -12,7 +11,7 @@ import ErrorMessage from '../../ErrorMessage';
 import PreviewNote from './PreviewNote';
 import ReactMarkdown from 'react-markdown';
 
-const Notes = ({ history }) => {
+const Notes = ({ history, search }) => {
   // state for modal
   const [modalShow, setModalShow] = useState(false);
   const [activeModalContent, setActiveModalContent] = useState('');
@@ -62,7 +61,6 @@ const Notes = ({ history }) => {
 
   return (
     <MainScreen title={`Welcome back ${userInfo && userInfo.name}..`}>
-      <Search />
       <Link to='/createnote'>
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size='lg'>
           <i className='fas fa-plus'></i> Add Note
@@ -99,12 +97,16 @@ const Notes = ({ history }) => {
         </div>
       )}
       {/* slice.reverse is basically to show latest note first  */}
-      {/** unknown error  */}
       {notes &&
         notes
           .slice(0)
           .reverse()
-          .map((note) => (
+          .filter(
+            (filteredNote) =>
+              filteredNote.title.toLowerCase().includes(search.toLowerCase()) ||
+              filteredNote.title.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((note, index, arr) => (
             <Accordion key={note._id}>
               <Card style={{ margin: 10 }}>
                 <Card.Header style={{ display: 'flex' }}>
@@ -123,8 +125,8 @@ const Notes = ({ history }) => {
                       eventKey='0'
                       variant='link'
                     >
-                      <i className='fas fa-arrow-circle-right ms-2'></i>{' '}
-                      {note.title}
+                      {/* <i className='fas fa-arrow-circle-right ms-2'></i>{' '} */}
+                      <strong>{arr.length - index}. </strong> {note.title}
                     </Accordion.Toggle>
                   </span>
                   <div>

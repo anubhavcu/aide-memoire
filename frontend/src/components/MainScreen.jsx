@@ -3,19 +3,19 @@ import './MainScreen.css';
 import { useDispatch } from 'react-redux';
 
 const MainScreen = ({ title, children }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const handleChange = () => {
-    const value = document.getElementById('flexSwitchCheckChecked').checked;
-    console.log(value);
-    dispatch({ type: 'THEME_SWITCHED', payload: value });
-  };
+  // const handleChange = () => {
+  //   const value = document.getElementById('flexSwitchCheckChecked').checked;
+  //   console.log(value);
+  //   dispatch({ type: 'THEME_SWITCHED', payload: value });
+  // };
 
   return (
     <div className='main-background'>
       <Container>
         <Col>
-          <div
+          {/* <div
             className='form-check form-switch my-2 '
             style={{ position: 'absolute', right: '20vw' }}
           >
@@ -29,7 +29,7 @@ const MainScreen = ({ title, children }) => {
             <label className='form-check-label' for='flexSwitchCheckChecked'>
               Dark Theme
             </label>
-          </div>
+          </div> */}
           <Row>
             <div className='page'>
               {title && (

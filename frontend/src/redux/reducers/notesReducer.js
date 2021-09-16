@@ -37,14 +37,15 @@ export const notesReducer = (state = initialState, action) => {
 
 // creating a note
 export const createNoteReducer = (
-  state = { loading: false, error: '', success: null },
+  // state = { loading: false, error: '', success: null },
+  state = {},
   action
 ) => {
   switch (action.type) {
     case NOTES_CREATE_REQUEST:
-      return { ...state, loading: true, error: '', success: false };
+      return { loading: true, error: '', success: false };
     case NOTES_CREATE_SUCCESS:
-      return { ...state, loading: false, success: true, error: '' };
+      return { loading: false, success: true, error: '' };
     case NOTES_CREATE_FAIL:
       return {
         error: action.payload,
@@ -58,14 +59,15 @@ export const createNoteReducer = (
 
 // updating a note
 export const noteUpdateReducer = (
-  state = { loading: false, error: '', success: null },
+  // state = { loading: false, error: '', success: null },
+  state = {},
   action
 ) => {
   switch (action.type) {
     case NOTES_UPDATE_REQUEST:
-      return { ...state, loading: true, error: '', success: false };
+      return { loading: true, error: '', success: false };
     case NOTES_UPDATE_SUCCESS:
-      return { ...state, loading: false, error: '', success: true };
+      return { loading: false, error: '', success: true };
 
     case NOTES_UPDATE_FAIL:
       return {
