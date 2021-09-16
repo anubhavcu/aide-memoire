@@ -10,6 +10,7 @@ import {
 } from '../../../redux/actions/notesActions';
 import ErrorMessage from '../../ErrorMessage';
 import PreviewNote from './PreviewNote';
+import ReactMarkdown from 'react-markdown';
 
 const Notes = ({ history }) => {
   // state for modal
@@ -98,84 +99,90 @@ const Notes = ({ history }) => {
         </div>
       )}
       {/* slice.reverse is basically to show latest note first  */}
-      {notes
-        .slice(0)
-        .reverse()
-        .map((note) => (
-          <Accordion key={note._id}>
-            <Card style={{ margin: 10 }}>
-              <Card.Header style={{ display: 'flex' }}>
-                <span
-                  style={{
-                    flex: 1,
-                    color: 'black',
-                    textDecoration: 'none',
-                    alignSelf: 'center',
-                    fontSize: 20,
-                    cursor: 'pointer',
-                  }}
-                >
-                  <Accordion.Toggle as={Card.Text} eventKey='0' variant='link'>
-                    <i className='fas fa-arrow-circle-right ms-2'></i>{' '}
-                    {note.title}
-                  </Accordion.Toggle>
-                </span>
-                <div>
-                  <Button
-                    variant='success'
-                    className='mx-2'
-                    onClick={() => {
-                      setActiveModalContent(note);
-                      setModalShow(true);
+      {/** unknown error  */}
+      {notes &&
+        notes
+          .slice(0)
+          .reverse()
+          .map((note) => (
+            <Accordion key={note._id}>
+              <Card style={{ margin: 10 }}>
+                <Card.Header style={{ display: 'flex' }}>
+                  <span
+                    style={{
+                      flex: 1,
+                      color: 'black',
+                      textDecoration: 'none',
+                      alignSelf: 'center',
+                      fontSize: 20,
+                      cursor: 'pointer',
                     }}
                   >
-                    <i className='fas fa-eye'></i> Preview
-                  </Button>
-
-                  <PreviewNote
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                    content={activeModalContent}
-                  />
-
-                  <Link to={`/notes/${note._id}`}>
-                    <Button>
-                      <i className='fas fa-pen'></i>
-                      {'  '} Edit
+                    <Accordion.Toggle
+                      as={Card.Text}
+                      eventKey='0'
+                      variant='link'
+                    >
+                      <i className='fas fa-arrow-circle-right ms-2'></i>{' '}
+                      {note.title}
+                    </Accordion.Toggle>
+                  </span>
+                  <div>
+                    <Button
+                      variant='success'
+                      className='mx-2'
+                      onClick={() => {
+                        setActiveModalContent(note);
+                        setModalShow(true);
+                      }}
+                    >
+                      <i className='fas fa-eye'></i> Preview
                     </Button>
-                  </Link>
-                  <Button
-                    variant='danger'
-                    className='mx-2'
-                    onClick={() => handleDelete(note._id)}
-                  >
-                    <i className='fas fa-trash-alt'></i>
-                    {'   '} Delete
-                  </Button>
-                </div>
-              </Card.Header>
-              <Accordion.Collapse eventKey='0'>
-                <Card.Body>
-                  <h4>
-                    {/* <Badge variant='success'>Category -{note.category}</Badge> */}
-                    <Badge className='badge bg-success'>
-                      {/* <span className='badge bg-info'> */}
-                      Category -{note.category}
-                      {/* </span> */}
-                    </Badge>
-                  </h4>
-                  <blockquote className='blockquote mb-0'>
-                    <p>{note.content}</p>
-                    <footer className='blockquote-footer'>
-                      {/* Date created: {note.createdAt.substring(0, 10)} || */}
-                      Last modified: {note.updatedAt.substring(0, 10)}
-                    </footer>
-                  </blockquote>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          </Accordion>
-        ))}
+
+                    <PreviewNote
+                      show={modalShow}
+                      onHide={() => setModalShow(false)}
+                      content={activeModalContent}
+                    />
+
+                    <Link to={`/notes/${note._id}`}>
+                      <Button>
+                        <i className='fas fa-pen'></i>
+                        {'  '} Edit
+                      </Button>
+                    </Link>
+                    <Button
+                      variant='danger'
+                      className='mx-2'
+                      onClick={() => handleDelete(note._id)}
+                    >
+                      <i className='fas fa-trash-alt'></i>
+                      {'   '} Delete
+                    </Button>
+                  </div>
+                </Card.Header>
+                <Accordion.Collapse eventKey='0'>
+                  <Card.Body>
+                    <h4>
+                      {/* <Badge variant='success'>Category -{note.category}</Badge> */}
+                      <Badge className='badge bg-success'>
+                        {/* <span className='badge bg-info'> */}
+                        Category -{note.category}
+                        {/* </span> */}
+                      </Badge>
+                    </h4>
+                    <blockquote className='blockquote mb-0'>
+                      <ReactMarkdown>{note.content}</ReactMarkdown>
+                      <footer className='blockquote-footer'>
+                        {/* Date created: {note.createdAt.substring(0, 10)} || */}
+                        Last modified: {note.updatedAt.substring(0, 10)}
+                      </footer>
+                    </blockquote>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            </Accordion>
+          ))}
     </MainScreen>
   );
 };

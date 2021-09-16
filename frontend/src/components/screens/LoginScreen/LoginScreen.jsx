@@ -56,7 +56,7 @@ const LoginScreen = ({ history }) => {
               />
             </Form.Group>
 
-            {loading === false && (
+            {!loading && (
               <Button variant='primary' type='submit'>
                 Submit
               </Button>

@@ -22,8 +22,6 @@ export const listNotes = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    console.log(userInfo.token);
-
     const config = {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,

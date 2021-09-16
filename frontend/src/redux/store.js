@@ -6,7 +6,11 @@ import {
   notesReducer,
   noteUpdateReducer,
 } from './reducers/notesReducer';
-import { userLoginReducer, userRegisterReducer } from './reducers/userReducers';
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userUpdateReducer,
+} from './reducers/userReducers';
 import { themeReducer } from './reducers/themeReducer';
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -18,6 +22,7 @@ const rootReducer = combineReducers({
   createNote: createNoteReducer,
   noteUpdate: noteUpdateReducer,
   noteDelete: noteDeleteReducer,
+  updateUser: userUpdateReducer,
   theme: themeReducer,
 });
 

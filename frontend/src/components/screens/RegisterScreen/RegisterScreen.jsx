@@ -132,7 +132,7 @@ const RegisterScreen = ({ history }) => {
               />
             </Form.Group>
 
-            {loading === false && (
+            {!loading && (
               <Button variant='primary' type='submit'>
                 Register
               </Button>

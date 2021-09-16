@@ -24,7 +24,7 @@ const CreateNote = ({ history }) => {
   const createNote = useSelector((state) => state.createNote);
   const { loading, error, note } = createNote;
 
-  console.log(note);
+  //   console.log(' note ', note);
 
   const resetHandler = () => {
     setTitle('');
@@ -94,7 +94,7 @@ const CreateNote = ({ history }) => {
                   onChange={(e) => setCategory(e.target.value)}
                 />
               </Form.Group>
-              {loading === false && (
+              {!loading && (
                 <Button variant='primary' type='submit' size='lg'>
                   Submit
                 </Button>

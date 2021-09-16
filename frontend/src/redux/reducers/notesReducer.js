@@ -15,20 +15,20 @@ import {
 
 const initialState = {
   notes: [],
-  loading: false,
-  error: '',
+  // loading: false,
+  // error: '',
 };
 
 // fetching notes
 export const notesReducer = (state = initialState, action) => {
   switch (action.type) {
     case NOTES_LIST_REQUEST:
-      return { ...state, loading: true };
+      return { loading: true };
     case NOTES_LIST_SUCCESS:
-      return { ...state, loading: false, notes: action.payload };
+      return { loading: false, notes: action.payload };
 
     case NOTES_LIST_FAIL:
-      return { ...state, loading: false, error: action.payload };
+      return { loading: false, error: action.payload };
 
     default:
       return state;
