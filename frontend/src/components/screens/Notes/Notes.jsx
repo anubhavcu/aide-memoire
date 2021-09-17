@@ -1,5 +1,5 @@
 import { Accordion, Badge, Button, Card, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import MainScreen from '../../MainScreen';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import ErrorMessage from '../../ErrorMessage';
 import PreviewNote from './PreviewNote';
 import ReactMarkdown from 'react-markdown';
 
-const Notes = ({ history, search }) => {
+const Notes = ({ search }) => {
   // state for modal
   const [modalShow, setModalShow] = useState(false);
   const [activeModalContent, setActiveModalContent] = useState('');
@@ -38,8 +38,12 @@ const Notes = ({ history, search }) => {
     error: errorDelete,
     success: successDelete,
   } = noteDelete;
+
+  const history = useHistory();
+
   useEffect(() => {
-    if (!userInfo || userInfo === null) {
+    if (!userInfo) {
+      console.log(history);
       history.push('/');
     } else {
       dispatch(listNotes());

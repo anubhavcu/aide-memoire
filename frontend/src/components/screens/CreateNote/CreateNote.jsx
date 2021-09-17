@@ -24,6 +24,9 @@ const CreateNote = ({ history }) => {
   const createNote = useSelector((state) => state.createNote);
   const { loading, error, note } = createNote;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   //   console.log(' note ', note);
 
   const resetHandler = () => {
@@ -41,7 +44,12 @@ const CreateNote = ({ history }) => {
     history.push('/notes');
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!userInfo) {
+      console.log(history);
+      history.push('/');
+    }
+  }, []);
 
   return (
     <Container>
