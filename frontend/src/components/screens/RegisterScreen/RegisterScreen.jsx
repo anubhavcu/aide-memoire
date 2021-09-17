@@ -55,7 +55,7 @@ const RegisterScreen = ({ history }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setPic(data.url.toString());
         })
         .catch((err) => {

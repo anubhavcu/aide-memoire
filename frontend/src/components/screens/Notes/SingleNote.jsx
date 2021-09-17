@@ -60,7 +60,7 @@ const SingleNote = ({ history, match }) => {
 
   const updateHandler = (e) => {
     e.preventDefault();
-    console.log(title, content, category);
+    // console.log(title, content, category);
     dispatch(updateNoteAction(match.params.id, title, content, category));
     if (!title || !content || !category) return;
 

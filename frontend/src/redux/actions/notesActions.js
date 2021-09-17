@@ -75,7 +75,7 @@ export const updateNoteAction =
   (id, title, content, category) => async (dispatch, getState) => {
     try {
       dispatch({ type: NOTES_UPDATE_REQUEST });
-      console.log('from action ', id);
+      // console.log('from action ', id);
 
       const {
         userLogin: { userInfo },
