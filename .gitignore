@@ -3,7 +3,7 @@
 **node_modules/
 test.http
 .env
-/frontend/build
+# /frontend/build
 
 # dependencies
 /node_modules
