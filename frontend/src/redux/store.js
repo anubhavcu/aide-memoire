@@ -7,6 +7,7 @@ import {
   noteUpdateReducer,
 } from './reducers/notesReducer';
 import {
+  userDeleteReducer,
   userLoginReducer,
   userRegisterReducer,
   userUpdateReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   noteDelete: noteDeleteReducer,
   updateUser: userUpdateReducer,
   theme: themeReducer,
+  deleteUser: userDeleteReducer,
 });
 
 // get user info (if present) from local storage and add it to store's state

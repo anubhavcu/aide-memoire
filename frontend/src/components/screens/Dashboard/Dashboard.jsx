@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Row, Col, Container } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+  Container,
+  OverlayTrigger,
+  Popover,
+} from 'react-bootstrap';
 import MainScreen from '../../MainScreen';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { userUpdateAction } from '../../../redux/actions/userActions';
+import {
+  logout,
+  userDeleteAction,
+  userUpdateAction,
+} from '../../../redux/actions/userActions';
 import ErrorMessage from '../../ErrorMessage';
 import { USER_UPDATE_FAIL } from '../../../redux/constants/userConstants';
+import { notesDeleteAction } from '../../../redux/actions/notesActions';
 
 const Dashboard = ({ location, history }) => {
   const [name, setName] = useState('');
@@ -22,6 +35,11 @@ const Dashboard = ({ location, history }) => {
 
   const updateUser = useSelector((state) => state.updateUser);
   let { loading, error, success } = updateUser;
+
+  // for deleting all notes of user when he deletes his profile
+  const notesList = useSelector((state) => state.notesList);
+  const { notes } = notesList;
+  console.log(notes);
 
   useEffect(() => {
     if (!userInfo) {
@@ -69,6 +87,19 @@ const Dashboard = ({ location, history }) => {
         payload:
           "passwords don't match, either leave the password blank or enter same values in password/confirm password",
       });
+    }
+  };
+
+  //delete account
+  const handleDelete = () => {
+    if (
+      window.confirm('Are you sure ? You will not be able to undo this action.')
+    ) {
+      console.log(userInfo._id);
+      dispatch(userDeleteAction(userInfo._id));
+      notes.forEach((note) => dispatch(notesDeleteAction(note._id))); // delete all notes of the user
+      dispatch(logout()); // for cleaning up local storage
+      history.push('/');
     }
   };
 
@@ -145,8 +176,16 @@ const Dashboard = ({ location, history }) => {
                     custom
                   />
                 </Form.Group>
-                <Button type='submit' varient='primary'>
+                <Button type='submit' variant='primary'>
                   Update
+                </Button>
+                <Button
+                  className='mx-2'
+                  variant='danger'
+                  className='mx-2'
+                  onClick={handleDelete}
+                >
+                  Delete Account
                 </Button>
               </Form>
             </Col>

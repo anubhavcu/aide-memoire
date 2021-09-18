@@ -9,6 +9,9 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAIL,
 } from '../constants/userConstants';
 import axios from 'axios';
 
@@ -118,5 +121,30 @@ export const userUpdateAction = (user) => async (dispatch, getState) => {
           ? error.response.message
           : error.message,
     });
+  }
+};
+
+export const userDeleteAction = (id) => async (dispatch, getState) => {
+  try {
+    console.log('from actions - ', id);
+    dispatch({ type: USER_DELETE_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.delete(`/api/users/${id}`, config);
+
+    dispatch({ type: USER_DELETE_SUCCESS, payload: data });
+  } catch (err) {
+    const message =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message;
+    dispatch({ type: USER_DELETE_FAIL, payload: message });
   }
 };

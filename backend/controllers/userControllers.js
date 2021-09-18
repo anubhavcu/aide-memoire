@@ -1,5 +1,6 @@
 // this module will have CRUD operations on /api/user route
 const asyncHandler = require('express-async-handler');
+const { db } = require('../models/userModel');
 const User = require('../models/userModel');
 const generateToken = require('../utils/generateToken');
 
@@ -97,4 +98,18 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser, updateUserProfile };
+// delete user
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    // console.log(user);
+    await user.remove();
+    res.json('user profile deleted successfully... ');
+  } catch (error) {
+    res
+      .status(500)
+      .json({ err: error.message || 'Error while deleting user...' });
+  }
+});
+
+module.exports = { registerUser, authUser, updateUserProfile, deleteUser };
